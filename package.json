@@ -1,0 +1,17 @@
+{
+  "name": "storage",
+  "version": "1.0.0",
+  "description": "This is the first line  this is the second line this is the third line This is the fourth line.....",
+  "main": "app.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
+  },
+  "author": "Vivek",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "mongodb": "^6.3.0"
+  }
+}

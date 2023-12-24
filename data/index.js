@@ -1,4 +1,4 @@
-import movies from './movies.js';
+import userFuncs from './users.js';
 
-export const movieData = movies;
+export const userData = userFuncs;
 
