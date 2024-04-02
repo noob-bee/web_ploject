@@ -1,7 +1,7 @@
 import { Router } from "express";
 import * as check from "../helpers.js";
 import { userData } from "../data/index.js";
-import * as readDir from "../data/fileOps.js";
+
 import Entities from 'html-entities';
 import xss from 'xss';
 
@@ -33,7 +33,7 @@ loginRoutes
         password = xss(password);
 
         emailId = Entities.encode(emailId);
-        
+
         emailId = check.isStringValid(emailId, "Login EmailID");
         password = check.isStringValid(password, 'Login Password');
         
