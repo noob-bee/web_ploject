@@ -1,0 +1,13 @@
+<main>
+    <h2>{{message}}</h2>
+    {{#each userList}}
+        <li>
+            <h3>First Name: {{firstName}}</h3>
+            <h3>Last Name: {{lastName}}</h3>
+            <h3>EmailId: {{emailId}}</h3>
+            <button class="removeButton" data-email="{{emailId}}" type="button">Remove User</button>
+        </li>
+    {{/each}}
+
+    <script src="../public/js/removeUser.js"></script>
+</main>

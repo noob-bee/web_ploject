@@ -1,0 +1,88 @@
+<main>
+    <!-- New container for cut, paste, delete, copy, etc. symbols -->
+     <div id="progressContainer">
+        <div id="progressBar"></div>
+    </div>
+    <p id="errorMessage">
+        {{errorMessage}}
+    </p>
+    <div id="progressUpdate"></div> 
+    <br>
+        <div class="line-above"></div> 
+        <div class="action-icons">  
+            <div class="backButton">
+                <a href="#" id="backButton" class="enabled">
+                    <img src="../public/images/back.png" alt="Previous Page" width="25" height="25">
+                </a>
+                <a href="/directoryContents/{{grandParentId}}" id="grandDir" class="disabled">{{grandParentName}}</a>
+                {{!-- <a href="" class="disabled">/</a> --}}
+                <a href="/directoryContents/{{ParentId}}" id="parentDir" class="disabled">/{{parentName}}</a>
+            </div>
+            <div class="fileops-icons">
+                {{#if isAdmin}}
+                    <a href="/adminPannel">Admin Pannel</a>
+                {{/if}}
+                <a href="#" id="rescanDir" class="enabled">
+                    <img src="../public/images/rescanDir.png" alt="rescan" width="25" height="25">
+                </a>
+                <a href="#" id="newDirectory" class="enabled">
+                    <img src="../public/images/new_folder.png" alt="newfolder" width="25" height="25">
+                </a>
+                <a href="#" id="fileopsCopy" file-op="copy" class="enabled">
+                    <img class="copy" src="../public/images/copy.png" alt="" width="25" height="25">
+                </a>
+                <a href="#" id="fileopsCut" file-op="cut" class="enabled">
+                    <img class="cut" src="../public/images/cut.png" alt="" width="25" height="25">
+                </a>
+                <a href="#" id="fileopsPaste" file-op="paste" class="enabled">
+                    <img class="paste" src="../public/images/paste.png" alt="" width="25" height="25">
+                </a>
+                <a href="#" id="fileopsDelete" file-op="delete" class="enabled">
+                    <img class="delete" src="../public/images/delete.png" alt="" width="25" height="25">
+                </a>
+                <a href="#" id="fileopsUpload" file-op="upload" class="enabled">
+                    <img class="upload" src="../public/images/upload.png" alt="" width="25" height="25">
+                </a>
+                <input type="file" name="fileInput" id="fileInput" style="display: none;" multiple/>
+                <a href="#" id="fileopsDownload" file-op="download" class="enabled">
+                    <img class="download" src="../public/images/download.png" alt="" width="25" height="25">
+                </a>
+                <a href="#" id="logout" class="enabled">LogOut</a>
+            </div>    
+        </div>
+        <div class="line-below"></div>
+    <br>
+    <br>
+    <h3>
+        <div id="parentData" data-parent-id="{{ParentId}}"></div>
+        <div class="horizontal-container">
+            {{#if directoryContents}}
+                {{#each directoryContents}}
+                    <ul>
+                        {{#if isFile}}
+                            <a href="#" class="file-link" data-id="{{this.contentId}}">
+                                <img src="../public/images/file.png" alt="" width="80" height="80">
+                                <div class="file-info">
+                                    <span class="button-text">{{this.fileName}}</span>
+                                </div>
+                            </a>
+                        {{else}}
+                            <a href="#" class="directory-link" data-id="{{this.contentId}}">
+                                <img src="../public/images/directory.jpeg" alt="" width="80" height="80">
+                                <div class="directory-info">
+                                    <span class="button-text">{{this.fileName}}</span>
+                                </div>
+                            </a>
+                        {{/if}}
+                    </ul>
+                {{/each}}
+            {{else}}
+                <p>No files or directories found</p>
+                <br>
+                <img src="../public/images/emptiness.gif" alt="No data" width="100" height="100">
+            {{/if}}
+        </div>
+    </h3>
+    <link rel="stylesheet" type="text/css" href="../public/css/style.css">
+    <script src="../public/js/userPageValidation.js"></script>
+</main>

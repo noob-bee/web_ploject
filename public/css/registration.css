@@ -1,0 +1,68 @@
+/* Center the content within the main element */
+main {
+    text-align: center;
+    margin-top: 50px;
+}
+
+/* Style the form container */
+form {
+    max-width: 300px;
+    margin: 0 auto; /* Center the form */
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Style the form labels */
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+/* Style the form inputs */
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+/* Style the form submit button */
+button[type="submit"] {
+    width: 100%;
+    background-color: #4caf50;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button[type="submit"]:hover {
+    background-color: #45a049;
+}
+
+/* Style the error messages */
+#errorMessages {
+    color: red;
+    margin-top: 10px;
+}
+
+/* Style the login link */
+a {
+    display: block;
+    margin-top: 20px;
+    text-decoration: none;
+    color: #147ed2;
+}
+
+a:hover {
+    text-decoration: underline;
+}

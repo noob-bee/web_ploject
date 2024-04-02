@@ -1,0 +1,70 @@
+<main>
+    <!-- New container for cut, paste, delete, copy, etc. symbols -->
+     <div id="progressContainer">
+        <div id="progressBar"></div>
+    </div>
+    <p id="errorMessage">
+        {{errorMessage}}
+    </p>
+    <div id="progressUpdate"></div> 
+    <br>
+         
+        <div class="action-icons">  
+            <div class="backButton">
+                <button id="backButton">Go Back</button>
+            </div>
+            <div class="fileops-icons">
+                <a href="#" id="newDirectory" class="disabled">
+                    <img src="../public/images/new_folder.png" alt="newfolder" width="25" height="25">
+                </a>
+                <a href="#" id="fileopsCopy" file-op="copy" class="disabled">
+                    <img class="copy" src="../public/images/copy.png" alt="" width="25" height="25">
+                </a>
+                <a href="#" id="fileopsCut" file-op="cut" class="disabled">
+                    <img class="cut" src="../public/images/cut.png" alt="" width="25" height="25">
+                </a>
+                <a href="#" id="fileopsPaste" file-op="paste" class="enabled">
+                    <img class="paste" src="../public/images/paste.png" alt="" width="25" height="25">
+                </a>
+                <a href="#" id="fileopsDelete" file-op="delete" class="disabled">
+                    <img class="delete" src="../public/images/delete.png" alt="" width="25" height="25">
+                </a>
+                <a href="#" id="fileopsUpload" file-op="upload" class="disabled">
+                    <img class="upload" src="../public/images/upload.png" alt="" width="25" height="25">
+                </a>
+                <input type="file" name="fileInput" id="fileInput" style="display: none;" multiple/>
+                <a href="#" id="fileopsDownload" file-op="download" class="disabled">
+                    <img class="download" src="../public/images/download.png" alt="" width="25" height="25">
+                </a>
+                <a href="#" id="logout" class="disabled">LogOut</a>
+            </div>    
+        </div>
+    <br>
+    <br>
+    <h3>
+        <div id="parentData" data-parent-id="{{ParentId}}"></div>
+        <div class="horizontal-container">
+            {{#each directoryContents}}
+                <ul>
+                    {{#if isFile}}
+                        <a href="#" class="file-link" data-id="{{this.contentId}}">
+                            <img src="../public/images/file.png" alt="" width="80" height="80">
+                            <div class="file-info">
+                                <span class="button-text">{{this.fileName}}</span>
+                            </div>
+                        </a>
+                    {{else}}
+                        <a href="#" class="directory-link" data-id="{{this.contentId}}">
+                            <img src="../public/images/directory.jpeg" alt="" width="80" height="80">
+                            <div class="directory-info">
+                                <span class="button-text">{{this.fileName}}</span>
+                            </div>
+                        </a>
+                    {{/if}}
+                </ul>
+            {{/each}}
+        </div>
+    </h3>
+    <link rel="stylesheet" type="text/css" href="../public/css/style.css">
+    <script src="../public/js/cutPageValidation.js"></script>
+</main>

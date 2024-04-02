@@ -1,0 +1,26 @@
+<main>
+    <form action="/registration" method="post" id="registrationForm">
+
+        <label for="firstName">First Name</label>
+        <input type="text" id="firstName" name="firstName" value="{{firstNameValue}}">
+
+        <label for="lastName">Last Name</label>
+        <input type="text" id="lastName" name="lastName" value="{{lastNameValue}}">
+
+        <label for="emailId">EmailId</label>
+        <input type="email" id="emailId" name="emailId">
+
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password">
+
+        <label for="confirmationPassword">Confirm Password</label>
+        <input type="password" name="confirmationPassword" id="confirmationPassword">
+
+        <button type="submit">SUBMIT</button>
+    </form>
+    <p id="errorMessages">
+        {{errorMessage}}
+    </p>
+    <link rel="stylesheet" href="../public/css/registration.css">
+    <script src="../public/js/registrationValidation.js"></script>
+</main>

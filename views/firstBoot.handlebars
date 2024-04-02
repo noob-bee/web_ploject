@@ -1,0 +1,34 @@
+
+<main>
+    <h1>Hey</h1>
+    <h2>This account will be the admin account!</h2>
+    <form action="/firstBoot" method="post" id="firstBootForm">
+
+        <label for="firstName">First Name</label>
+        <input type="text" id="firstName" name="firstName" value="{{firstName}}">
+
+        <label for="lastName">Last Name</label>
+        <input type="text" id="lastName" name="lastName" value="{{lastName}}">
+
+        <label for="emailId">EmailId</label>
+        <input type="email" id="emailId" name="emailId" value="{{emailId}}">
+
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password">
+
+        <label for="confirmationPassword">Confirm Password</label>
+        <input type="password" name="confirmationPassword" id="confirmationPassword">
+
+        {{!-- <label for="dataDirectory">Select Your Data Directory</label>
+        <input type="file" id="dataDirectory" name="dataDirectory" webkitdirectory directory> --}}
+
+        <button type="submit">SUBMIT</button>
+    </form>
+    <p id="errorMessages">
+        {{#if errorMessage}}
+            <li>{{errorMessage}}</li>
+        {{/if}}
+    </p>
+    <script src="../public/js/firstBoot.js"></script>
+    <link rel="stylesheet" href="../public/css/firstBoot.css">
+</main>
