@@ -1,11 +1,11 @@
-/* Add this to your existing CSS file or create a new one */
+
 
 * {
     box-sizing: border-box; /* Include padding and border in the element's total width and height */
 }
 
 main {
-    text-align: center; /* Optional: Center the content within the main element */
+    text-align: center; 
     margin-top: 50px;
 }
 
@@ -20,28 +20,28 @@ main {
 
 ul {
     flex-basis: calc(10% - 10px); /* Set the initial size of each flex item based on 10 elements per line */
-    margin: 0; /* Remove the margin to ensure even spacing */
+    margin: 0; 
     padding: 0;
-    margin-bottom: 10px; /* Set the margin-bottom value for consistent spacing */
+    margin-bottom: 10px; 
 }
 
 .file-info,
 .directory-info {
-    margin-top: 5px; /* Adjust the margin between the thumbnail and text */
+    margin-top: 5px; 
     margin-left: 5px;
     margin-right: 5px;
-    text-align: center; /* Optional: Center the text */
+    text-align: center;
 }
 
 /* Set maximum width for the text and handle overflow */
 a {
     display: inline-block;
-    max-width: 100px; /* Adjust the maximum width based on your thumbnail size */
+    max-width: 100px; 
     overflow: hidden;
     text-decoration: none; /* Remove underline from the text */
 }
 
-/* Set font size for the button text */
+
 /* Set font size and limit the text to two lines */
 .button-text {
     color: rgb(0, 0, 0);
@@ -57,14 +57,9 @@ a {
 }
 
 
-/* Add any other styles you need for your specific design */
-/* Add this to your existing CSS file or create a new one */
-
-/* Add styles for the selected class */
-/* Add styles for the selected class */
 .selected {
     max-width: 105px;
-    background-color: #54b3f7; /* Change the background color to your desired highlight color */
+    background-color: #54b3f7; 
     border: 2px solid #147ed2; /* Add a border for better visibility */
     border-radius: 15px;
 }
@@ -75,7 +70,7 @@ a {
     display: flex;
     justify-content: space-between; /* Align items to the left and right */
     align-items: center; /* Center items vertically */
-    margin-top: 10px; /* Adjust the margin as needed */
+    margin-top: 10px; /* Add margin above the action icons */
 }
 
 /* Styles for the cut, paste, delete, copy, etc. symbols */
@@ -99,15 +94,15 @@ a {
     top: 0;
     left: 0;
     width: 100%;
-    height: 3px; /* Adjust the height of the progress bar */
-    background-color: #e0e0e0; /* Set the background color of the progress bar container */
-    display: none; /* Hide the progress bar by default */
+    height: 3px; 
+    background-color: #e0e0e0; 
+    display: none; 
 }
 
 #progressBar {
     height: 100%;
-    background-color: #3498db; /* Set the background color of the progress bar */
-    width: 0; /* Initial width is 0 */
+    background-color: #3498db; 
+    width: 0; 
 }
 
 .action-icons a.disabled img {
@@ -128,12 +123,12 @@ a {
     z-index: 9999;
 }
 .line-above {
-    border-top: 1px solid black; /* Adjust border properties as needed */
-    margin-bottom: 10px; /* Adjust the margin to position the line */
+    border-top: 1px solid black; 
+    margin-bottom: 10px; 
 }
 
 /* Style for line below action-icons */
 .line-below {
-    border-top: 1px solid black; /* Adjust border properties as needed */
-    margin-top: 10px; /* Adjust the margin to position the line */
+    border-top: 1px solid black; 
+    margin-top: 10px; 
 }
