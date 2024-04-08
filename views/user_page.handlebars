@@ -16,11 +16,15 @@
                 </a>
                 <a href="/directoryContents/{{grandParentId}}" id="grandDir" class="disabled">{{grandParentName}}</a>
                 {{!-- <a href="" class="disabled">/</a> --}}
-                <a href="/directoryContents/{{ParentId}}" id="parentDir" class="disabled">/{{parentName}}</a>
+                {{!-- <img src="../public/images/slash.png" alt="" width="10" height="35"> --}}
+                <span>/</span>
+                <a href="/directoryContents/{{ParentId}}" id="parentDir" class="disabled">{{parentName}}</a>
             </div>
             <div class="fileops-icons">
                 {{#if isAdmin}}
-                    <a href="/adminPannel">Admin Pannel</a>
+                    <a href="#" id="admin-pannel" class="enabled">Admin Pannel
+
+                    </a>
                 {{/if}}
                 <a href="#" id="rescanDir" class="enabled">
                     <img src="../public/images/rescanDir.png" alt="rescan" width="25" height="25">

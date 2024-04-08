@@ -17,6 +17,7 @@ document.addEventListener('DOMContentLoaded', function(){
     const rescanDir = document.getElementById('rescanDir');
     var parentDataElement = document.getElementById('parentData');
     var goBackButton = document.getElementById('backButton');
+    const adminPannel = document.getElementById('admin-pannel');
     var parentId = parentDataElement.dataset.parentId;
     var ctrlKeyIsPressed = false;
     var shiftKeyIsPresssed = false;
@@ -38,7 +39,7 @@ document.addEventListener('DOMContentLoaded', function(){
     
     let allFileOpsButtons = [fileopsCopy, fileopsCut, fileopsDelete, fileopsDownload];
     let singleClickFileOpsButtons = [fileopsCopy, fileopsCut, fileopsDelete, fileopsDownload];
-    let allFileOpsIcons = [fileopsCopy, fileopsCut, fileopsPaste, fileopsDelete, fileopsUpload, fileopsDownload, newDirectory, rescanDir, logoutElement, goBackButton];
+    let allFileOpsIcons = [fileopsCopy, fileopsCut, fileopsPaste, fileopsDelete, fileopsUpload, fileopsDownload, newDirectory, rescanDir, logoutElement, goBackButton, adminPannel];
     let allFileOpsObject = {
         'fileopsCopy': fileopsCopy,
         'fileopsCut': fileopsCut,
@@ -58,6 +59,13 @@ document.addEventListener('DOMContentLoaded', function(){
         document.cookie = 'selectedContentId=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
         document.cookie = 'selectedFileOps=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
     }
+    function handleClick(event) {
+        event.preventDefault(); // Prevent default behavior of the anchor tag
+        event.stopPropagation(); // Stop event from propagating further
+    
+        
+        // console.log("This action is disabled");
+    }
     for (let i =0; i<allFileOpsButtons.length; i++){
         allFileOpsButtons[i].classList.remove('enabled');
         allFileOpsButtons[i].classList.add('disabled');
@@ -68,6 +76,7 @@ document.addEventListener('DOMContentLoaded', function(){
             allFileOpsIcons[i].classList.remove('enabled');
             allFileOpsIcons[i].classList.add('disabled');
             allFileOpsIcons[i].removeAttribute('href');
+            allFileOpsIcons[i].removeEventListener('click', handleClick);
         }
     }
     let selectedFileOps;
@@ -206,11 +215,19 @@ document.addEventListener('DOMContentLoaded', function(){
             // Optionally attempt to reconnect or handle the error
         });
     }
+    adminPannel.addEventListener('click', function(){
+        if(!adminPannel.classList.contains('disabled')){
+            window.location.href = '/adminPannel';
+        }   
+    });
     rescanDir.addEventListener('click', function(){
-        window.location.reload();
+        if(!rescanDir.classList.contains('disabled')){
+            window.location.reload();
+        }
     })
     fileopsCopy.addEventListener('click', function() { // to register copy icon click event
-        const copyFile = fileopsCopy.getAttribute('file-op');
+        if(!fileopsCopy.classList.contains('disabled')){
+            const copyFile = fileopsCopy.getAttribute('file-op');
         // fileopsPaste.classList.remove('disabled'); //now since the copy operation is selected we will enable paste icon
         // fileopsPaste.classList.add('enabled');
         selectedFileOps = 1;
@@ -239,164 +256,180 @@ document.addEventListener('DOMContentLoaded', function(){
                 }
             }
         })
+        }
+        
 
     });
     fileopsCut.addEventListener('click', function() { // to register cut icon click event
-        const cutFile = fileopsCut.getAttribute('file-op');
+        if(!fileopsCut.classList.contains('disabled')){
+            const cutFile = fileopsCut.getAttribute('file-op');
         
-        selectedFileOps = 2;
-        cutDirParentID = parentId;
-        // document.cookie = `selectedFileOps=${selectedFileOps};`;
-        // document.cookie = `selectedContentId=${selectedContentID};`;
-        // document.cookie = `cutDirParentID=${cutDirParentID}`;
-        clearCookies();
-        updateCookie('selectedFileOps', selectedFileOps);
-        updateCookie('selectedContentId', selectedContentID);
-        updateCookie('cutDirParentID', cutDirParentID);
-        $('body').append('<div class="overlay"></div>');
-        $.ajax({
-            url: '/fileops/copycut',
-            method: 'POST',
-            contentType: 'application/json',
-            data: JSON.stringify( {
-                selectedContentID: selectedContentID,
-                selectedFileOps: selectedFileOps
-            }),
-            success: function(response){
-                if(response == 'OK'){
-                    const newWindow = window.open('/cutPaste/0', 'cutWindow', 'width=600, height=400');
-                    if(newWindow){
-                        
-                        console.log(`New window opened for cut operation..`);
-                        var timer = setInterval(function() {   
-                            if(newWindow.closed) {  
-                                clearInterval(timer);  
-                                $('.overlay').remove();
-                                window.location.reload();
-                                // const windowSwitchID = getCookie('cutParentID')
-                                // console.log(`WINDOW SWITCH ID =: ${windowSwitchID}`);
-                                // window.location.href = `/directoryContents/${windowSwitchID}`;
-                            }  
-                        }, 1000); 
+            selectedFileOps = 2;
+            cutDirParentID = parentId;
+            // document.cookie = `selectedFileOps=${selectedFileOps};`;
+            // document.cookie = `selectedContentId=${selectedContentID};`;
+            // document.cookie = `cutDirParentID=${cutDirParentID}`;
+            clearCookies();
+            updateCookie('selectedFileOps', selectedFileOps);
+            updateCookie('selectedContentId', selectedContentID);
+            updateCookie('cutDirParentID', cutDirParentID);
+            $('body').append('<div class="overlay"></div>');
+            $.ajax({
+                url: '/fileops/copycut',
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify( {
+                    selectedContentID: selectedContentID,
+                    selectedFileOps: selectedFileOps
+                }),
+                success: function(response){
+                    if(response == 'OK'){
+                        const newWindow = window.open('/cutPaste/0', 'cutWindow', 'width=600, height=400');
+                        if(newWindow){
+                            
+                            console.log(`New window opened for cut operation..`);
+                            var timer = setInterval(function() {   
+                                if(newWindow.closed) {  
+                                    clearInterval(timer);  
+                                    $('.overlay').remove();
+                                    window.location.reload();
+                                    // const windowSwitchID = getCookie('cutParentID')
+                                    // console.log(`WINDOW SWITCH ID =: ${windowSwitchID}`);
+                                    // window.location.href = `/directoryContents/${windowSwitchID}`;
+                                }  
+                            }, 1000); 
+                        }
+                        else{
+                            console.log(`Failed to open the new window`);
+                        }
                     }
-                    else{
-                        console.log(`Failed to open the new window`);
+                },
+                error: function (xhr, status, error){
+                    if(xhr.status===403){
+                        window.location.reload();
                     }
                 }
-            },
-            error: function (xhr, status, error){
-                if(xhr.status===403){
-                    window.location.reload();
+            })
+            // updateCookie('reload', 1);
+            // updateCookie('cutContentParentId', parentId);
+            selectedContentID.forEach(function(fileId){
+                var elementToRemove = document.querySelector(`[data-id="${fileId}"]`);
+                if (elementToRemove) {
+                    elementToRemove.removeAttribute('href');
+                    elementToRemove.remove();
                 }
-            }
-        })
-        // updateCookie('reload', 1);
-        // updateCookie('cutContentParentId', parentId);
-        selectedContentID.forEach(function(fileId){
-            var elementToRemove = document.querySelector(`[data-id="${fileId}"]`);
-            if (elementToRemove) {
-                elementToRemove.removeAttribute('href');
-                elementToRemove.remove();
-            }
-        });
-        console.log('File Operation selected: '+ selectedFileOps);
+            });
+            console.log('File Operation selected: '+ selectedFileOps);
+        }
+        
 
     });
 
     fileopsPaste.addEventListener('click', function() {
-        const pasteFile = fileopsPaste.getAttribute('file-op');
-        console.log(`printing the cookie datat`);
-        console.log(document.cookie);
-        const filesTobeTransfered = getCookie('selectedContentId');
-        const fileOperation = getCookie('selectedFileOps');
-        const cutDirID = getCookie('cutDirParentID');
-        console.log(`filesId: ${filesTobeTransfered}, fileOperation: ${fileOperation}, parentId: ${parentId}`);
+        if(!fileopsPaste.classList.contains('disabled')){
+            const pasteFile = fileopsPaste.getAttribute('file-op');
+            console.log(`printing the cookie datat`);
+            console.log(document.cookie);
+            const filesTobeTransfered = getCookie('selectedContentId');
+            const fileOperation = getCookie('selectedFileOps');
+            const cutDirID = getCookie('cutDirParentID');
+            console.log(`filesId: ${filesTobeTransfered}, fileOperation: ${fileOperation}, parentId: ${parentId}`);
 
-        if(pasteFile){
-            disableAllIcons();
-            if(filesTobeTransfered){
-                progressElement.innerHTML = `Pasting Files....`;
-            }
-            $.ajax({
-                url: '/fileops/paste',
-                type:'POST',
-                contentType: 'application/json',
-                data: JSON.stringify({
-                    selectedFileOps: fileOperation,
-                    selectedContentID: filesTobeTransfered,
-                    parentId: parentId,
-                    cutDirParentID: cutDirID
-                }),
-                success: function(response){
-                    if(response === 'OK'){
-                        console.log(`RESPONSE 200 RECIEVED FROM THE SERVER`);
-                        // document.cookie = `selectedContentId=null;`;
-                        // document.cookie =  `selectedFileOps=null;`;
-                        toggleIcon('fileopsPaste', 'disable');
-                        clearCookies();
-                        window.location.reload();
-                        
-                    }
-                },
-                error: function (xhr, error, status) {
-                    if(xhr.status === 501){
-                        appendError('errorMessage','Please select files and their respective operations for pasting content');
-                    }
-                    
-                    if(xhr.status===403){
-                        window.location.reload();
-                    }
-                    
-                    console.error(`Error during AJAX request: ${error}`);
+            if(pasteFile){
+                disableAllIcons();
+                if(filesTobeTransfered){
+                    progressElement.innerHTML = `Pasting Files....`;
                 }
-            })
+                $.ajax({
+                    url: '/fileops/paste',
+                    type:'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({
+                        selectedFileOps: fileOperation,
+                        selectedContentID: filesTobeTransfered,
+                        parentId: parentId,
+                        cutDirParentID: cutDirID
+                    }),
+                    success: function(response){
+                        if(response === 'OK'){
+                            console.log(`RESPONSE 200 RECIEVED FROM THE SERVER`);
+                            // document.cookie = `selectedContentId=null;`;
+                            // document.cookie =  `selectedFileOps=null;`;
+                            toggleIcon('fileopsPaste', 'disable');
+                            clearCookies();
+                            window.location.reload();
+                            
+                        }
+                    },
+                    error: function (xhr, error, status) {
+                        if(xhr.status===403){
+                            window.location.reload();
+                        }
+                        if(xhr.status === 501){
+                            appendError('errorMessage','Please select files and their respective operations for pasting content');
+                        }
+                        
+                        
+                        
+                        console.error(`Error during AJAX request: ${error}`);
+                    }
+                })
+            }
+            console.log('File Operation selected:', pasteFile);
         }
-        console.log('File Operation selected:', pasteFile);
     });
 
     fileopsDelete.addEventListener('click', function() {
-        var userChoice = window.confirm(`ARE YOU SURE YOU WANT TO DELETE THE SELECTED FILE?`);
-        if(userChoice){
-            selectedFileOps = 3;
-            progressElement.innerHTML = `Deleting File.....`;    
-            disableAllIcons();
-            $.ajax({
-                url: '/fileops/delete',
-                type: 'POST',
-                contentType: 'application/json',
-                data: JSON.stringify({
-                    selectedFileOps: selectedFileOps,
-                    selectedContentID: selectedContentID
-                }),
-                success: function(response){
-                    if(response.message === 'OK'){
-                        console.log(`File has been deleted successfully`);
-                        clearCookies();
-                        location.reload();
-                    }
-                },
-                error: function(xhr, error, status){
-                    console.error(`Error during ajax request: ${error}`);
-                    if(xhr.status === 403){
-                        window.location.reload();
-                    }
+        if(!fileopsDelete.classList.contains('disabled')){
+            var userChoice = window.confirm(`ARE YOU SURE YOU WANT TO DELETE THE SELECTED FILE?`);
+            if(userChoice){
+                selectedFileOps = 3;
+                progressElement.innerHTML = `Deleting File.....`;    
+                disableAllIcons();
+                $.ajax({
+                    url: '/fileops/delete',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({
+                        selectedFileOps: selectedFileOps,
+                        selectedContentID: selectedContentID
+                    }),
+                    success: function(response){
+                        if(response.message === 'OK'){
+                            console.log(`File has been deleted successfully`);
+                            clearCookies();
+                            location.reload();
+                        }
+                    },
+                    error: function(xhr, error, status){
+                        console.error(`Error during ajax request: ${error}`);
+                        if(xhr.status === 403){
+                            window.location.reload();
+                        }
 
-                }
-            })
+                    }
+                })
+            }
         }
+        
     });
 
-    fileopsUpload.addEventListener('click', function() {
-        const uploadFile = fileopsUpload.getAttribute('file-op');
-        selectedFileOps = 5;
-        console.log('File Operation selected:', uploadFile);
-        console.log(`parent Id: ${parentId}`);
-        console.log(document.cookie);
-        // document.cookie = `parentId=${parentId}; path=/;`;
-        // document.cookie = `selectedFileOps=${selectedFileOps}; path=/`;
-        updateCookie('parentId', parentId);
-        updateCookie('selectedFileOps', selectedFileOps);
-        fileInput.click();
+    fileopsUpload.addEventListener('click', function(){
+
+        if(!fileopsUpload.classList.contains('disabled')){
+            const uploadFile = fileopsUpload.getAttribute('file-op');
+            selectedFileOps = 5;
+            console.log('File Operation selected:', uploadFile);
+            console.log(`parent Id: ${parentId}`);
+            console.log(document.cookie);
+            // document.cookie = `parentId=${parentId}; path=/;`;
+            // document.cookie = `selectedFileOps=${selectedFileOps}; path=/`;
+            updateCookie('parentId', parentId);
+            updateCookie('selectedFileOps', selectedFileOps);
+            fileInput.click();
+            disableAllIcons();
+        }
+        
     });
     fileInput.addEventListener('change', function(){
         console.log('Upload button clicked: ');
@@ -432,33 +465,30 @@ document.addEventListener('DOMContentLoaded', function(){
 
     fileopsDownload.addEventListener('click', function() {
         
-        // const downloadFile = fileopsDownload.getAttribute('file-op');
-        // selectedFileOps = 4;
-        // var link = document.createElement('a');
-        // link.href = '/download';
-        // link.click();
-        // console.log('File Operation selected:', downloadFile);
-        selectedFileOps = 4;
+        if(!fileopsDownload.classList.contains('disabled')){
+            selectedFileOps = 4;
+            disableAllIcons();
+            if(selectedContentID.length === 1){
+                console.log(`selected contentid === 1...... downloading file`);
+                progressElement.innerHTML = `Downloading File`;
+            }
+            else if(selectedContentID.length > 1){
+                console.log(`selected file content > 1.....zipping files.....`);
+                progressElement.innerHTML = `Zipping Files....`;
+            }
+            // document.cookie = `selectedFileOps=${selectedFileOps}; path=/`;
+            // document.cookie = `selectedContentId=${selectedContentID}; path=/`;
+            updateCookie('selectedFileOps', selectedFileOps);
+            updateCookie('selectedContentId', selectedContentID);
+            console.log(`fileop in download: ${getCookie('selectedFileOps')} and selectedFileOps = : ${selectedFileOps}`);
+            startSSE();
+            var downloadLink = document.createElement('a');
+            downloadLink.href = '/download';
+            document.body.appendChild(downloadLink);
+            downloadLink.click();
+            document.body.removeChild(downloadLink);
+        }
         
-        if(selectedContentID.length === 1){
-            console.log(`selected contentid === 1...... downloading file`);
-            progressElement.innerHTML = `Downloading File`;
-        }
-        else if(selectedContentID.length > 1){
-            console.log(`selected file content > 1.....zipping files.....`);
-            progressElement.innerHTML = `Zipping Files....`;
-        }
-        // document.cookie = `selectedFileOps=${selectedFileOps}; path=/`;
-        // document.cookie = `selectedContentId=${selectedContentID}; path=/`;
-        updateCookie('selectedFileOps', selectedFileOps);
-        updateCookie('selectedContentId', selectedContentID);
-        console.log(`fileop in download: ${getCookie('selectedFileOps')} and selectedFileOps = : ${selectedFileOps}`);
-        startSSE();
-        var downloadLink = document.createElement('a');
-        downloadLink.href = '/download';
-        document.body.appendChild(downloadLink);
-        downloadLink.click();
-        document.body.removeChild(downloadLink);
     });
     logoutElement.addEventListener('click', function(){
         console.log(`HITTING /LOGOUT NOW`);
@@ -474,31 +504,34 @@ document.addEventListener('DOMContentLoaded', function(){
         })
     });
     newDirectory.addEventListener('click', function(){
-        let directoryName = prompt('Enter name of the new directory(less than 30 characters): ');
-        if(typeof directoryName === 'string' && directoryName.trim.length > 0 && directoryName.trim.length < 25){
-            const validName = /^[^\[\]{}()<>*?/\\#@!$%^&+=]*$/
-            if(validName.test(directoryName)){
-            }
-            else{
-                directoryName = null;
-            }
-        }
-        if(directoryName){
-            $.ajax({
-                url: '/fileops/newDirectory',
-                method: 'POST',
-                contentType: 'application/json',
-                data: JSON.stringify({
-                    parentId: parentId,
-                    directoryName: directoryName
-                }),
-                success: function(response){
-                    if(response === 'OK'){
-                        window.location.reload();
-                    }
+        if(!newDirectory.classList.contains('disabled')){
+            let directoryName = prompt('Enter name of the new directory(less than 30 characters): ');
+            if(typeof directoryName === 'string' && directoryName.trim.length > 0 && directoryName.trim.length < 25){
+                const validName = /^[^\[\]{}()<>*?/\\#@!$%^&+=]*$/
+                if(validName.test(directoryName)){
                 }
-            })
+                else{
+                    directoryName = null;
+                }
+            }
+            if(directoryName){
+                $.ajax({
+                    url: '/fileops/newDirectory',
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({
+                        parentId: parentId,
+                        directoryName: directoryName
+                    }),
+                    success: function(response){
+                        if(response === 'OK'){
+                            window.location.reload();
+                        }
+                    }
+                })
+            }
         }
+        
     });
     // Function to handle single click
     function handleSingleClick(link){
