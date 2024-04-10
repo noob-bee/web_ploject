@@ -17,7 +17,14 @@ document.addEventListener('DOMContentLoaded', function(){
     const rescanDir = document.getElementById('rescanDir');
     var parentDataElement = document.getElementById('parentData');
     var goBackButton = document.getElementById('backButton');
-    const adminPannel = document.getElementById('admin-pannel');
+    var isAdmin = document.getElementById('isAdmin');
+    isAdmin = isAdmin.value;
+    var adminPannel;
+    console.log(`isAdmin: ${isAdmin}`);
+    if(isAdmin){
+        adminPannel = document.getElementById('admin-pannel');
+    }
+    
     var parentId = parentDataElement.dataset.parentId;
     var ctrlKeyIsPressed = false;
     var shiftKeyIsPresssed = false;
@@ -39,7 +46,8 @@ document.addEventListener('DOMContentLoaded', function(){
     
     let allFileOpsButtons = [fileopsCopy, fileopsCut, fileopsDelete, fileopsDownload];
     let singleClickFileOpsButtons = [fileopsCopy, fileopsCut, fileopsDelete, fileopsDownload];
-    let allFileOpsIcons = [fileopsCopy, fileopsCut, fileopsPaste, fileopsDelete, fileopsUpload, fileopsDownload, newDirectory, rescanDir, logoutElement, goBackButton, adminPannel];
+    let allFileOpsIcons = [fileopsCopy, fileopsCut, fileopsPaste, fileopsDelete, fileopsUpload, fileopsDownload, newDirectory, rescanDir, logoutElement, goBackButton];
+    let adminFileOpsIcons = [fileopsCopy, fileopsCut, fileopsPaste, fileopsDelete, fileopsUpload, fileopsDownload, newDirectory, rescanDir, logoutElement, goBackButton, adminPannel];
     let allFileOpsObject = {
         'fileopsCopy': fileopsCopy,
         'fileopsCut': fileopsCut,
@@ -72,11 +80,25 @@ document.addEventListener('DOMContentLoaded', function(){
         allFileOpsButtons[i].removeAttribute('href');
     }
     function disableAllIcons(){
-        for (let i =0; i<allFileOpsIcons.length; i++){
-            allFileOpsIcons[i].classList.remove('enabled');
-            allFileOpsIcons[i].classList.add('disabled');
-            allFileOpsIcons[i].removeAttribute('href');
-            allFileOpsIcons[i].removeEventListener('click', handleClick);
+        console.log(`Disabling all icons`);
+        if(!isAdmin){
+            for (let i =0; i<allFileOpsIcons.length; i++){
+                console.log(`iconPosition: ${i}}`);
+                    allFileOpsIcons[i].classList.remove('enabled');
+                    allFileOpsIcons[i].classList.add('disabled');
+                    allFileOpsIcons[i].removeAttribute('href');
+                    allFileOpsIcons[i].removeEventListener('click', handleClick);
+            }
+        }
+        else{
+            for (let i =0; i<adminFileOpsIcons.length; i++){
+                console.log(`iconPosition: ${i}}`);
+                    adminFileOpsIcons[i].classList.remove('enabled');
+                    adminFileOpsIcons[i].classList.add('disabled');
+                    adminFileOpsIcons[i].removeAttribute('href');
+                    adminFileOpsIcons[i].removeEventListener('click', handleClick);
+            }
+        
         }
     }
     let selectedFileOps;
@@ -215,11 +237,16 @@ document.addEventListener('DOMContentLoaded', function(){
             // Optionally attempt to reconnect or handle the error
         });
     }
-    adminPannel.addEventListener('click', function(){
-        if(!adminPannel.classList.contains('disabled')){
-            window.location.href = '/adminPannel';
-        }   
-    });
+    console.log(`isAdmin before event listner: ${isAdmin}`);
+    if(isAdmin === true){
+        console.log(`Admin is present`);
+        adminPannel.addEventListener('click', function(){
+            if(!adminPannel.classList.contains('disabled')){
+                window.location.href = '/adminPannel';
+            }   
+        });
+    }
+    
     rescanDir.addEventListener('click', function(){
         if(!rescanDir.classList.contains('disabled')){
             window.location.reload();
@@ -415,7 +442,7 @@ document.addEventListener('DOMContentLoaded', function(){
     });
 
     fileopsUpload.addEventListener('click', function(){
-
+        console.log(`fileops upload class list: ${fileopsUpload.classList.contains('disabled')}`);
         if(!fileopsUpload.classList.contains('disabled')){
             const uploadFile = fileopsUpload.getAttribute('file-op');
             selectedFileOps = 5;
@@ -427,7 +454,7 @@ document.addEventListener('DOMContentLoaded', function(){
             updateCookie('parentId', parentId);
             updateCookie('selectedFileOps', selectedFileOps);
             fileInput.click();
-            disableAllIcons();
+            disableAllIcons();  
         }
         
     });

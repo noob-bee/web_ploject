@@ -11,7 +11,7 @@ import { MongoClient } from 'mongodb';
 import { dbConnection, closeConnection } from "./config/mongoConnection.js"
 import { compareSync } from 'bcrypt';
 
-const url = 'mongodb://127.0.0.1:27017';
+const url = 'mongodb://mongodb:27017';
 const client = new MongoClient(url);
 let firstBoot = true;
 async function listDatabases() {
