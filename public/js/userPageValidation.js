@@ -17,8 +17,17 @@ document.addEventListener('DOMContentLoaded', function(){
     const rescanDir = document.getElementById('rescanDir');
     var parentDataElement = document.getElementById('parentData');
     var goBackButton = document.getElementById('backButton');
-    var isAdmin = document.getElementById('isAdmin');
-    isAdmin = isAdmin.value;
+    var isAdminValue = document.getElementById('isAdmin');
+    var isAdmin;
+    if(typeof isAdminValue.value === 'string'){
+        console.log(`isAdminValue: ${isAdminValue.value}`);
+        if(isAdminValue.value === 'true'){
+            isAdmin = true;
+        }
+        else{
+            isAdmin = false;
+        }
+    }
     var adminPannel;
     console.log(`isAdmin: ${isAdmin}`);
     if(isAdmin){
@@ -152,30 +161,7 @@ document.addEventListener('DOMContentLoaded', function(){
         const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
         if (match) return match[2];
     }
-    // var reload = Number(getCookie('reload'));
-    // var cutContentId = getCookie('cutContentParentId');
-    // console.log(`#################################   RELOAD: ${reload}`);
-    // console.log(`###############################     cutcontentid: ${cutContentId}, parentid: ${parentId}`);
-
-    // if(reload === 1){
-    //     var elementsRemoved=  false;
-    //     // console.log(getCookie('cutContentId'));
-    //     if(cutContentId === parentId){
-    //         console.log(`RELOADING WEB PAGE##########################################333`);
-    //     }
-    // }
-    // updateCookie('reloadSetByCut', 1);
-    // var fileOpsSelectionCode = Number(getCookie('selectedFileOps'));
-    // console.log(`selectedfileops: ${getCookie('selectedFileOps')}`);
-    // if(fileOpsSelectionCode === 1){
-    //     console.log('ENABLING PASTE BUTTON TO PERFORM COPY');
-    //     toggleIcon('fileopsPaste', 'enable');
-    // }
-    // console.log(`selectedfileops: ${getCookie('selectedFileOps')}`);
-    // if(fileOpsSelectionCode === 2){
-    //     console.log('ENABLING PASTE BUTTON TO PERFORM CUT');
-    //     toggleIcon('fileopsPaste', 'enable');
-    // }
+    
     function updateProgressBar(progress) {
         const progressBar = document.getElementById('progressBar');
         progressBar.style.width = progress + '%';
@@ -198,18 +184,10 @@ document.addEventListener('DOMContentLoaded', function(){
             // Handle the SSE update data
             console.log('Received SSE update:', data);
     
-            // Example: Update progress on the client side
+            //Updating progress on the client side
             if (data.progress !== undefined) {
                 console.log('Progress update:', data.progress);
-    
-                // Update your UI with the progress information
-                // if(FileOps === 4){
-                //     progressElement.innerText = `Zipping Files: ${data.progress}%`;
-                // }
-                // else if(FileOps === 5){
-                //     progressElement.innerHTML = `Uploading Files: ${data.progress}%`;
-                // }
-                    
+     
                     
                 updateProgressBar(data.progress);
                 if(data.progress >= 100){
@@ -238,9 +216,11 @@ document.addEventListener('DOMContentLoaded', function(){
         });
     }
     console.log(`isAdmin before event listner: ${isAdmin}`);
-    if(isAdmin === true){
+    console.log(`typeof isAdmin: ${typeof isAdmin}`);
+    if(isAdmin){
         console.log(`Admin is present`);
         adminPannel.addEventListener('click', function(){
+            console.log(`!adminPannel.classList.contains('disabled'): ${!adminPannel.classList.contains('disabled')}`);
             if(!adminPannel.classList.contains('disabled')){
                 window.location.href = '/adminPannel';
             }   
