@@ -17,6 +17,10 @@ let exportedMethods = {
       clearData: function(key){
         this.temporaryStorage[key] = [];
         return true;
+      },
+      clear_all_data: function(){
+        this.temporaryStorage = {};
+        return true;
       }
 }
 export default exportedMethods;

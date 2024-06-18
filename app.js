@@ -10,8 +10,8 @@ import multer from 'multer';
 import { MongoClient } from 'mongodb';
 import { dbConnection, closeConnection } from "./config/mongoConnection.js"
 import { compareSync } from 'bcrypt';
-
-const url = 'mongodb://mongodb:27017';
+const mongouri = 'mongodb://localhost:27017';
+const url = mongouri;
 const client = new MongoClient(url);
 let firstBoot = true;
 async function listDatabases() {

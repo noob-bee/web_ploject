@@ -1,4 +1,5 @@
 import { Router } from "express";
+import { storageData } from "../data/index.js";
 
 const logoutRouter = Router();
 
@@ -14,6 +15,10 @@ logoutRouter.route('/').get(async(req, res)=>{
                 console.log('session destroyed');
                 res.send(200);
             });
+            let data_cleared = storageData.clear_all_data();
+            if(data_cleared){
+                console.log(`All data cleared`);
+            }
         }
     }
     catch(error){
